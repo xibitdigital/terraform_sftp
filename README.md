@@ -18,7 +18,10 @@ module "sftp" {
   bucket_arn                 = aws_s3_bucket.foo_bucket.arn
 
   environment = "dev"
-  tags        = local.tags
+  tags        = {
+    Owner   = "Foo"
+    Project = "sample"
+  }
 }
 ```
 
