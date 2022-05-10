@@ -7,7 +7,23 @@
 
 ## Usage
 
+```
+module "sftp" {
+  source = "./"
+
+  transfer_server_name       = local.transfer_server_name
+  transfer_server_user_names = ["foo"]         # your username
+  transfer_server_ssh_keys   = ["ssh-rsa foo"] # your rsa key, please use pbcopy and paste the content in here
+  bucket_name                = aws_s3_bucket.foo_bucket.id
+  bucket_arn                 = aws_s3_bucket.foo_bucket.arn
+
+  environment = "dev"
+  tags        = local.tags
+}
+```
+
 Please look in the example folder for a working sample.
+
 To login in the sftp server please use:
 
 ```
