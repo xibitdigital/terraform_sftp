@@ -68,6 +68,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_transfer_server_endpoint"></a> [transfer\_server\_endpoint](#output\_transfer\_server\_endpoint) | The endpoint of the Transfer Server (e.g., s-12345678.server.transfer.REGION.amazonaws.com). |
-| <a name="output_transfer_server_id"></a> [transfer\_server\_id](#output\_transfer\_server\_id) | ID for an SFTP server. |
+| <a name="output_transfer_server_endpoint"></a> [transfer\_server\_endpoint](#output\_transfer\_server\_endpoint) | The endpoint of the Transfer Server (e.g., s-12345678.server.transfer.REGION.amazonaws.com) |
+| <a name="output_transfer_server_id"></a> [transfer\_server\_id](#output\_transfer\_server\_id) | ID for an SFTP server |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
