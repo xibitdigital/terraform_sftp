@@ -2,6 +2,10 @@ locals {
   region               = "eu-west-2"
   bucket_name          = "my-foobar-bucket-sftp"
   transfer_server_name = "sftp-server-name"
+  tags = {
+    Owner   = "Foo"
+    Project = "sample"
+  }
 }
 
 provider "aws" {
@@ -37,4 +41,7 @@ module "sftp" {
   transfer_server_ssh_keys   = ["ssh-rsa foo"] # your rsa key, please use pbcopy and paste the content in here
   bucket_name                = aws_s3_bucket.foo_bucket.id
   bucket_arn                 = aws_s3_bucket.foo_bucket.arn
+
+  environment = "dev"
+  tags        = local.tags
 }

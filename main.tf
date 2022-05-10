@@ -1,6 +1,8 @@
 locals {
-  is_vpc  = var.endpoint_details == null ? false : true
-  has_eip = var.eip_enabled == true ? true : false
+  is_vpc        = var.endpoint_details == null ? false : true
+  has_eip       = var.eip_enabled == true ? true : false
+  has_domain    = length(var.domain_name) > 0 && length(var.zone_id) > 0 ? true : false
+  has_usernames = length(var.transfer_server_user_names) > 0 ? true : false
 }
 
 resource "aws_transfer_server" "transfer_server" {
@@ -18,13 +20,15 @@ resource "aws_transfer_server" "transfer_server" {
     }
   }
 
-  tags = {
-    Name = var.transfer_server_name
-  }
+  tags = merge(tomap({
+    "Name" = format("%s", var.transfer_server_name)
+  }), local.default_tags)
+
 }
 
 resource "aws_route53_record" "this" {
-  count   = length(var.domain_name) > 0 && length(var.zone_id) > 0 ? 1 : 0
+  count = local.has_domain ? 1 : 0
+
   name    = var.domain_name
   zone_id = var.zone_id
   type    = "CNAME"
@@ -41,8 +45,9 @@ resource "aws_eip" "sftp" {
   vpc = local.is_vpc
 }
 
+# setting up users that can access the sftp server
 resource "aws_transfer_user" "transfer_server_user" {
-  count = length(var.transfer_server_user_names)
+  count = local.has_usernames ? 1 : 0
 
   server_id      = aws_transfer_server.transfer_server.id
   user_name      = element(var.transfer_server_user_names, count.index)
@@ -51,7 +56,7 @@ resource "aws_transfer_user" "transfer_server_user" {
 }
 
 resource "aws_transfer_ssh_key" "transfer_server_ssh_key" {
-  count = length(var.transfer_server_user_names)
+  count = local.has_usernames ? 1 : 0
 
   server_id = aws_transfer_server.transfer_server.id
   user_name = element(aws_transfer_user.transfer_server_user.*.user_name, count.index)

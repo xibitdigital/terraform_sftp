@@ -13,6 +13,11 @@ variable "transfer_server_name" {
   type        = string
 }
 
+variable "environment" {
+  description = "A name that identifies the enviroment you are deploying into"
+  type        = string
+}
+
 variable "transfer_server_user_names" {
   description = "User name(s) for SFTP server"
   type        = list(string)
@@ -58,4 +63,10 @@ variable "domain_name" {
   description = "Domain name of the SFTP Endpoint as a CNAME record.  Also requires zone_id."
   type        = string
   default     = ""
+}
+
+variable "tags" {
+  description = "Tags that will be added to the SFTP resource"
+  type        = map(string)
+  default     = {}
 }

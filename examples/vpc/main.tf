@@ -1,20 +1,19 @@
 locals {
-  region               = "eu-west-2"
-  bucket_name          = "my-foobar-bucket-sftp"
-  transfer_server_name = "sftp-server-name"
-
+  region                    = "eu-west-2"
+  bucket_name               = "my-foobar-bucket-sftp"
+  transfer_server_name      = "sftp-server-name"
   cloudwatch_log_group_name = "vpc-flow-logs-to-cloudwatch-sftp"
+  tags = {
+    Owner   = "Foo"
+    Project = "sample"
+  }
 }
 
 provider "aws" {
   region = local.region
 
   default_tags {
-    tags = {
-      Environment = "Test"
-      Owner       = "Foo"
-      Project     = "sample"
-    }
+    tags = local.tags
   }
 }
 
@@ -60,7 +59,7 @@ module "ssh_security_group" {
   version = "~> 4.0"
 
   name                = "sftp ssh Security group"
-  ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_cidr_blocks = ["0.0.0.0/0"] # allow all as example
   vpc_id              = module.vpc.vpc_id
 }
 
@@ -80,6 +79,9 @@ module "sftp" {
     security_group_ids     = [module.ssh_security_group.security_group_id]
     address_allocation_ids = []
   }
+
+  environment = "dev"
+  tags        = local.tags
 }
 
 
