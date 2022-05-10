@@ -1,8 +1,3 @@
-output "bucket_name" {
-  value       = var.bucket_name
-  description = "Bucket name."
-}
-
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/transfer_server#endpoint
 output "transfer_server_endpoint" {
   value       = try(element(concat(aws_transfer_server.transfer_server.*.endpoint, [""]), 0), "")
