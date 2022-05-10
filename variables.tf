@@ -49,18 +49,18 @@ variable "endpoint_details" {
 
 variable "eip_enabled" {
   type        = bool
-  description = "Whether to provision and attach an Elastic IP to be used as the SFTP endpoint. An EIP will be provisioned per subnet."
+  description = "Whether to provision and attach an Elastic IP to be used as the SFTP endpoint. An EIP will be provisioned per subnet"
   default     = false
 }
 
 variable "zone_id" {
-  description = "Route53 Zone ID of the SFTP Endpoint CNAME record.  Also requires domain_name."
+  description = "Route53 Zone ID of the SFTP Endpoint CNAME record.  Also requires domain_name"
   type        = string
   default     = ""
 }
 
 variable "domain_name" {
-  description = "Domain name of the SFTP Endpoint as a CNAME record.  Also requires zone_id."
+  description = "Domain name of the SFTP Endpoint as a CNAME record.  Also requires zone_id"
   type        = string
   default     = ""
 }
