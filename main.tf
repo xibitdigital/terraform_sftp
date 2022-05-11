@@ -20,10 +20,9 @@ resource "aws_transfer_server" "transfer_server" {
     }
   }
 
-  tags = merge(tomap({
+  tags = merge(local.default_tags, tomap({
     "Name" = format("%s", var.transfer_server_name)
-  }), local.default_tags)
-
+  }))
 }
 
 resource "aws_route53_record" "this" {
