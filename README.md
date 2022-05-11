@@ -1,3 +1,7 @@
+# Terraform AWS SFTP module
+
+This module creates all resurces for the AWS SFTP service.
+
 #### Table of Contents
 1. [Usage](#usage)
 2. [Requirements](#requirements)
