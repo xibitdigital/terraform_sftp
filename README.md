@@ -14,11 +14,14 @@ module "sftp" {
   source = "./"
 
   transfer_server_name       = "sftp-server"
-
-  sftp_users                 = [<sftp-users>]
+  sftp_users                 = {
+    "foo" = {
+      user_name  = "foo",
+      public_key = "ssh-rsa fooo....."
+    }
+  }
   bucket_name                = <aws_s3_bucket.foo_bucket.id>
   bucket_arn                 = <aws_s3_bucket.foo_bucket.arn>
-
   environment = "dev"
   tags        = {
     Owner   = "Foo"
