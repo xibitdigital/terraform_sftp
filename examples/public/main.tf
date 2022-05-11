@@ -1,15 +1,5 @@
-locals {
-  region               = "eu-west-2"
-  bucket_name          = "my-foobar-bucket-sftp"
-  transfer_server_name = "sftp-server-name"
-  tags = {
-    Owner   = "Foo"
-    Project = "sample"
-  }
-}
-
 provider "aws" {
-  region = local.region
+  region = var.region
 
   default_tags {
     tags = {
@@ -21,7 +11,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "foo_bucket" {
-  bucket = local.bucket_name
+  bucket = var.bucket_name
 
   tags = {
     Name = "My bucket"
@@ -36,12 +26,11 @@ resource "aws_s3_bucket_acl" "example" {
 module "sftp" {
   source = "../../"
 
-  transfer_server_name       = local.transfer_server_name
-  transfer_server_user_names = ["foo"]         # your username
-  transfer_server_ssh_keys   = ["ssh-rsa foo"] # your rsa key, please use pbcopy and paste the content in here
-  bucket_name                = aws_s3_bucket.foo_bucket.id
-  bucket_arn                 = aws_s3_bucket.foo_bucket.arn
+  transfer_server_name = var.transfer_server_name
+  sftp_users           = var.sftp_users
+  bucket_name          = aws_s3_bucket.foo_bucket.id
+  bucket_arn           = aws_s3_bucket.foo_bucket.arn
 
-  environment = "dev"
-  tags        = local.tags
+  environment = var.environment
+  tags        = var.tags
 }

@@ -18,14 +18,13 @@ variable "environment" {
   type        = string
 }
 
-variable "transfer_server_user_names" {
-  description = "User name(s) for SFTP server"
-  type        = list(string)
-}
+variable "sftp_users" {
+  type = map(object({
+    user_name  = string,
+    public_key = string
+  }))
 
-variable "transfer_server_ssh_keys" {
-  description = "SSH Key(s) for transfer server user(s)"
-  type        = list(string)
+  description = "List of SFTP usernames and public keys"
 }
 
 variable "endpoint_details" {

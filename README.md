@@ -14,8 +14,8 @@ module "sftp" {
   source = "./"
 
   transfer_server_name       = "sftp-server"
-  transfer_server_user_names = [<foo>]         # your username
-  transfer_server_ssh_keys   = [<ssh-rsa foo>] # your rsa key, please use pbcopy and paste the content in here
+
+  sftp_users                 = [<sftp-users>]
   bucket_name                = <aws_s3_bucket.foo_bucket.id>
   bucket_arn                 = <aws_s3_bucket.foo_bucket.arn>
 
@@ -63,8 +63,8 @@ No modules.
 | [aws_iam_role_policy.transfer_server_to_cloudwatch_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_route53_record.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_transfer_server.transfer_server](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/transfer_server) | resource |
-| [aws_transfer_ssh_key.transfer_server_ssh_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/transfer_ssh_key) | resource |
-| [aws_transfer_user.transfer_server_user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/transfer_user) | resource |
+| [aws_transfer_ssh_key.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/transfer_ssh_key) | resource |
+| [aws_transfer_user.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/transfer_user) | resource |
 | [aws_iam_policy_document.transfer_server_assume_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.transfer_server_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.transfer_server_to_cloudwatch_assume_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -79,10 +79,9 @@ No modules.
 | <a name="input_eip_enabled"></a> [eip\_enabled](#input\_eip\_enabled) | Whether to provision and attach an Elastic IP to be used as the SFTP endpoint, an EIP will be provisioned per subnet | `bool` | `false` | no |
 | <a name="input_endpoint_details"></a> [endpoint\_details](#input\_endpoint\_details) | A block required to setup internal or public facing SFTP server endpoint within a VPC<pre>{<br>  vpc_id                 : ID of VPC in which SFTP server endpoint will be hosted<br>  subnet_ids             : List of subnets ids within the VPC for hosting SFTP server endpoint<br>  security_group_ids     : List of security group ids<br>  address_allocation_ids : List of address allocation IDs to attach an Elastic IP address to your SFTP server endpoint<br>}</pre> | <pre>object({<br>    vpc_id                 = string<br>    subnet_ids             = list(string)<br>    address_allocation_ids = list(string)<br>    security_group_ids     = list(string)<br>  })</pre> | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | A name that identifies the enviroment you are deploying into | `string` | n/a | yes |
+| <a name="input_sftp_users"></a> [sftp\_users](#input\_sftp\_users) | List of SFTP usernames and public keys | <pre>map(object({<br>    user_name  = string,<br>    public_key = string<br>  }))</pre> | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags that will be added to the SFTP resource | `map(string)` | `{}` | no |
 | <a name="input_transfer_server_name"></a> [transfer\_server\_name](#input\_transfer\_server\_name) | Transfer Server name | `string` | n/a | yes |
-| <a name="input_transfer_server_ssh_keys"></a> [transfer\_server\_ssh\_keys](#input\_transfer\_server\_ssh\_keys) | SSH Key(s) for transfer server user(s) | `list(string)` | n/a | yes |
-| <a name="input_transfer_server_user_names"></a> [transfer\_server\_user\_names](#input\_transfer\_server\_user\_names) | User name(s) for SFTP server | `list(string)` | n/a | yes |
 | <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | Route53 Zone ID of the SFTP Endpoint CNAME record | `string` | `""` | no |
 
 ## Outputs
