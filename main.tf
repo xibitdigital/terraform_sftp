@@ -51,7 +51,7 @@ resource "aws_transfer_user" "default" {
   role      = aws_iam_role.transfer_server_role.arn
   user_name = each.value.user_name
 
-  home_directory = "/${var.bucket_name}"
+  home_directory = "/${var.bucket_name}/${each.value.user_name}"
 
   tags = local.default_tags
 }
