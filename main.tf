@@ -1,7 +1,9 @@
 locals {
-  is_vpc     = var.endpoint_details == null ? false : true
-  has_eip    = var.eip_enabled == true ? true : false
-  has_domain = length(var.domain_name) > 0 && length(var.zone_id) > 0 ? true : false
+  is_vpc          = var.endpoint_details == null ? false : true
+  has_eip         = var.eip_enabled == true ? true : false
+  has_domain      = length(var.domain_name) > 0 && length(var.zone_id) > 0 ? true : false
+  has_home_folder = var.has_home_folder == true ? true : false
+  has_kms         = length(var.kms_arns) > 0 == true ? true : false
 }
 
 resource "aws_transfer_server" "transfer_server" {
@@ -51,7 +53,7 @@ resource "aws_transfer_user" "default" {
   role      = aws_iam_role.transfer_server_role.arn
   user_name = each.value.user_name
 
-  home_directory = "/${var.bucket_name}/${each.value.user_name}"
+  home_directory = local.has_home_folder ? "/${var.bucket_name}/${each.value.user_name}" : "/"
 
   tags = local.default_tags
 }

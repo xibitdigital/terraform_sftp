@@ -13,6 +13,19 @@ variable "transfer_server_name" {
   type        = string
 }
 
+variable "has_home_folder" {
+  description = "create home fodler for each user"
+  type        = bool
+  default     = false
+}
+
+variable "kms_arns" {
+  description = "The S3 bucket kms arns when KMS is enabled on the S3 bucket"
+  type        = list(string)
+  default     = []
+}
+
+
 variable "environment" {
   description = "A name that identifies the enviroment you are deploying into"
   type        = string

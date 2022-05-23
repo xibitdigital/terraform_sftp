@@ -29,6 +29,23 @@ data "aws_iam_policy_document" "transfer_server_assume_policy" {
       "${var.bucket_arn}/*"
     ]
   }
+
+  dynamic "statement" {
+    for_each = local.has_kms == true ? [1] : []
+    content {
+      effect = "Allow"
+      sid    = "Enable KMS Permissions"
+
+      actions = [
+        "kms:DescribeKey",
+        "kms:GenerateDataKey*",
+        "kms:Encrypt",
+        "kms:ReEncrypt*",
+        "kms:Decrypt"
+      ]
+      resources = var.kms_arns
+    }
+  }
 }
 
 data "aws_iam_policy_document" "transfer_server_to_cloudwatch_assume_policy" {
